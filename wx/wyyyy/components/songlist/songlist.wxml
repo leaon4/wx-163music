@@ -1,0 +1,26 @@
+<view
+  class="songs-item"
+  wx:for="{{songs}}"
+  wx:for-index="index"
+  wx:for-item="item"
+  wx:key="{{index}}"
+  data-id="{{item.id}}"
+  data-name="{{item.name}}"
+  data-artists="{{item.artists}}"
+  data-pic-url="{{item.album.picUrl}}"
+  bindtap="listTap"
+>
+  <view wx:if="{{hasIndex}}" class="songs-item-index" style="color:{{index<3?'red':'#999'}}">{{index>8?index+1:'0'+(index+1)}}</view>
+  <view style="width:{{hasIndex?'80%':'86%'}}">
+    <view class="songs-item-title">
+      <text>{{item.name}}</text>
+      <text class="songs-item-title-suffix" wx:if="{{item.alias[0]}}">（{{item.alias[0]}}）</text>
+    </view>
+    <view class="songs-message">
+      <image wx:if="{{item.privilege.maxbr>500000}}" src="/pages/img/sq.png" class="sqicon"></image>
+      <text wx:for="{{item.artists}}" wx:for-item="artist" wx:for-index="num" wx:key="{{num}}">{{num===0?artist.name:' / '+artist.name}}</text>
+      <text> - {{item.album.name}}</text>
+    </view>     
+  </view>
+  <image src="/pages/img/play.png" class="playicon"></image>
+</view>

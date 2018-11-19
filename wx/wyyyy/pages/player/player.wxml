@@ -1,0 +1,105 @@
+<image src="../img/player/1_blur.jpg" class="bgimage" mode="aspectFill"></image>
+<view class="page">
+	<image src="../img/player/logo.png" class="logo" mode="aspectFit"></image>
+	<image src="../img/player/needle-ip6.png" mode="aspectFit" class="needle"></image>
+	<view class="disc-container" bindtap="musicPause">
+		<view class="disc" style="animation-play-state: {{playState}}">
+			<image mode="aspectFit" class="disc_1" src="../img/player/1.jpg"></image>
+			<image mode="aspectFit" class="disc_2" src="../img/player/disc-ip6.png"></image>
+			<image mode="aspectFit" class="disc_2" src="../img/player/disc_light-ip6.png"></image>
+		</view>
+		<view class="pause-icon" style="visibility: {{playState==='paused'?'visible':'hidden'}}"></view>
+	</view>
+	<view class="lyrics-box">
+		<view class="lyrics-title">
+			<text>{{song.name}} - </text>
+			<text
+				class="lyrics-title-artist"
+				wx:for="{{song.artists}}"
+				wx:for-item="artist"
+				wx:for-index="num"
+				wx:key="{{num}}"
+			>{{num===0?artist.name:' / '+artist.name}}</text>
+		</view>
+		<scroll-view class="lyrics-content" scroll-y scroll-with-animation scroll-top="{{top}}">
+			<view
+				class="paragraph {{index===currentHightLight?'colorwhite':''}}"
+				wx:for="{{lrc}}"
+				wx:for-index="index"
+				wx:for-item="item"
+				wx:key="index"
+			>
+				<view>{{item.lrc}}</view>
+				<view>{{item.lrc_ch}}</view>
+			</view>
+		</scroll-view>
+	</view>
+	<view class="section" style="margin-top:65px;">
+		<view class="section-title">包含这首歌的歌单</view>
+		<view class="album">
+			<view class="intro-content-player">
+			  <view
+			    class="intro-item"
+			    wx:for="{{albumDatas}}"
+			    wx:for-index="index"
+			    wx:for-item="item"
+			    wx:key="index"
+			  >
+			    <image src="{{item.coverImgUrl}}" class="intro-image"></image>
+			    <text class="intro-text-player">{{item.name}}</text>
+			    <text class="intro-artist-player">by {{item.creator.nickname}}</text>
+			    <view class="listen-time">
+			      <image src="{{icon.earIcon}}" class="earicon"></image>
+			      {{item.playCount}}
+			    </view>
+			  </view>
+			</view>
+		</view>
+	</view>
+	<view class="section" style="margin-top:20px">
+		<view class="section-title">喜欢这首歌的人也听</view>
+		<view
+		  class="songs-item"
+		  wx:for="{{otherSongs}}"
+		  wx:for-index="index"
+		  wx:for-item="item"
+		  wx:key="index"
+		>
+		  <image src="{{item.album.picUrl}}" class="album-img"></image>
+		  <view class="songs-item-content">
+		    <view class="songs-item-title">
+		      <text>{{item.name}}</text>
+		    </view>
+		    <view class="songs-message">
+		      <image wx:if="{{item.isSQ}}" src="../img/sq.png" class="sqicon"></image>
+		      <text>{{item.artistName}} - {{item.album.name}}</text>
+		    </view>     
+		  </view>
+		  <view class="playicon-box" bindtap="aa">
+		 	<view class="pause-icon"></view>
+		  </view>
+		</view>
+	</view>
+	<view class="section" style="margin-top:40px">
+		<view class="section-title">精彩评论</view>
+		<view
+			class="comment-item"
+			wx:for="{{hotComments}}"
+			wx:for-index="index"
+			wx:for-item="item"
+			wx:key="index"
+		>
+			<view class="comment-header">
+				<image src="{{item.user.avatarUrl}}" class="comment-avatar"></image>
+				<view class="comment-info">
+					<view class="comment-nickname">{{item.user.nickname}}</view>
+					<view class="comment-otherinfo">{{item.time}}</view>
+				</view>
+				<view class="comment-liked-count">
+					<text class="comment-otherinfo">{{item.likedCount}} ❤</text>
+				</view>
+			</view>
+			<view class="comment-content">{{item.content}}</view>
+		</view>
+	</view>
+</view>

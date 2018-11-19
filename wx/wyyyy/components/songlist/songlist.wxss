@@ -1,0 +1,43 @@
+.songs-item{
+	height:43px;
+	padding:6px 0;
+	border-bottom: 1px solid #efeff0;
+	margin-left:5px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+/* .songs-item-content{
+	width:86%;
+} */
+.songs-item-title{
+	font-size:17px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.songs-item-title-suffix{
+	color:#888;
+}
+.songs-message{
+	margin-top:3px;
+	font-size:12px;
+	color:#888;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.sqicon{
+	width:13px;
+	height:9px;
+	margin-right: 5px
+}
+.playicon{
+	width:28px;
+	height:28px;
+}
+.songs-item-index{
+	color:#999;
+	font-size:17px;
+	width:20px;
+}
