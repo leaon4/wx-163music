@@ -10,7 +10,6 @@ app.get('/index',async (req,res)=>{
 	let [html,songs]=await Promise.all([spider.request(options),spider.getAjaxData('/weapi/personalized/newsong')]);
 	let indexSongs=getIndexSongs(html);
 	songs=songsFormat(songs);
-	console.log(html)
 	if (indexSongs&&songs){
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify({indexSongs,songs}));
@@ -26,7 +25,7 @@ app.get('/index/detail',async (req,res)=>{
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(json));
 	} catch (e){
-		console.log(e);
+		console.error(e);
 		res.end(e);
 	}
 });
@@ -38,7 +37,7 @@ app.get('/index/search/hot',async (req,res)=>{
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(json));
 	} catch (e){
-		console.log(e);
+		console.error(e);
 		res.end(e);
 	}
 });
@@ -51,7 +50,7 @@ app.get('/index/search/suggest/keyword',async (req,res)=>{
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(json));
 	} catch (e){
-		console.log(e);
+		console.error(e);
 		res.end(e);
 	}
 });
@@ -64,7 +63,7 @@ app.get('/index/search/suggest/multimatch',async (req,res)=>{
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(json));
 	} catch (e){
-		console.log(e);
+		console.error(e);
 		res.end(e);
 	}
 });

@@ -40,7 +40,8 @@ Page({
   },
   _indexDataFormat(data){
     data.indexSongs.forEach(item=>{
-      item.picUrl=item.picUrl.replace(/\.[a-z]+$/,app.globalData.imgExt.index);
+      // item.picUrl=item.picUrl.replace(/\.[a-z]+$/,app.globalData.imgExt.index);
+      item.picUrl=app.globalData.imgFormat(item.picUrl,'index');
       item.playCount=item.playCount>100000000?(item.playCount/100000000).toFixed(1)+'亿':(item.playCount/10000).toFixed(1)+'万';
     });
   },
@@ -187,10 +188,12 @@ Page({
   },
   _multimatchDataFormat(data){
     if (data.album){
-      data.album[0].picUrl=data.album[0].picUrl.replace(/\.[a-z]+$/,app.globalData.imgExt.list);
+      // data.album[0].picUrl=data.album[0].picUrl.replace(/\.[a-z]+$/,app.globalData.imgExt.list);
+      data.album[0].picUrl=app.globalData.imgFormat(data.album[0].picUrl,'list');
     }
     if (data.artist){
-      data.artist[0].picUrl=data.artist[0].picUrl.replace(/\.[a-z]+$/,app.globalData.imgExt.list);
+      // data.artist[0].picUrl=data.artist[0].picUrl.replace(/\.[a-z]+$/,app.globalData.imgExt.list);
+      data.artist[0].picUrl=app.globalData.imgFormat(data.artist[0].picUrl,'list');
     }
   },
   scrollToLower(e){

@@ -13,6 +13,7 @@ Component({
   methods:{
     listTap(e){
       let {id,name,picUrl,artists}=e.currentTarget.dataset;
+      picUrl=encodeURIComponent(picUrl);
       wx.navigateTo({
         url:`/pages/player/player?song_id=${id}&name=${name}&picUrl=${picUrl}&artists=${JSON.stringify(artists)}`
       });

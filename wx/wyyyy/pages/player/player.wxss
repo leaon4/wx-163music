@@ -20,11 +20,16 @@
 .disc-container{
 	/*border: 1px solid #fff;*/
 	position: relative;
+	width:300px;
+	height:300px;
+	border-radius: 50%;
+	margin:auto;
+	margin-top:10px;
 }
 .disc{
 	/*margin:auto;*/
 	/*border: 1px solid yellow;*/
-	margin-top:40px;
+	margin-top:30px;
 	/*position: relative;*/
 	display: flex;
 	justify-content: center;
@@ -58,16 +63,19 @@
 	/*border: 1px solid #fff;*/
 	height: 150px;
 	text-align:center;
+	padding:0 35px;
 }
-.lyrics-title-title{
-	font-size:14px;
+.lyrics-title{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .lyrics-title-artist{
 	color:#888;
-	font-size:14px;
+	font-size:16px;
 }
 .lyrics-content{
-	width:70%;
+	width:305px;
 	height:98px;
 	/*border: 1px solid yellow;*/
 	margin:auto;
@@ -77,9 +85,9 @@
 	/*overflow: hidden;*/
 }
 .paragraph{
-	font-size: 14px;
+	font-size: 16px;
 	/*border: 1px solid red;*/
-	height:50px;
+	/*height:50px;*/
 	color:#888;
 	transition:color 0.5s;
 }
@@ -87,7 +95,7 @@
 	color:white;
 }
 .pause-icon{
-	/*margin-top:20px;*/
+	margin-top:-30px;
 	width:60px;
 	height:60px;
 	position: absolute;

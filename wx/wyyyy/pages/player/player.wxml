@@ -1,10 +1,10 @@
-<image src="../img/player/1_blur.jpg" class="bgimage" mode="aspectFill"></image>
+<image src="{{song.blurPicUrl}}" class="bgimage" mode="aspectFill"></image>
 <view class="page">
 	<image src="../img/player/logo.png" class="logo" mode="aspectFit"></image>
 	<image src="../img/player/needle-ip6.png" mode="aspectFit" class="needle"></image>
 	<view class="disc-container" bindtap="musicPause">
 		<view class="disc" style="animation-play-state: {{playState}}">
-			<image mode="aspectFit" class="disc_1" src="../img/player/1.jpg"></image>
+			<image mode="aspectFit" class="disc_1" src="{{song.picUrl}}"></image>
 			<image mode="aspectFit" class="disc_2" src="../img/player/disc-ip6.png"></image>
 			<image mode="aspectFit" class="disc_2" src="../img/player/disc_light-ip6.png"></image>
 		</view>
@@ -12,7 +12,7 @@
 	</view>
 	<view class="lyrics-box">
 		<view class="lyrics-title">
-			<text>{{song.name}} - </text>
+			<text style="font-size:18px">{{song.name}} - </text>
 			<text
 				class="lyrics-title-artist"
 				wx:for="{{song.artists}}"
@@ -24,13 +24,14 @@
 		<scroll-view class="lyrics-content" scroll-y scroll-with-animation scroll-top="{{top}}">
 			<view
 				class="paragraph {{index===currentHightLight?'colorwhite':''}}"
+				style="height:{{lrcItemHeight+'px'}}"
 				wx:for="{{lrc}}"
 				wx:for-index="index"
 				wx:for-item="item"
 				wx:key="index"
 			>
 				<view>{{item.lrc}}</view>
-				<view>{{item.lrc_ch}}</view>
+				<view wx:if="{{item.lrc_ch}}">{{item.lrc_ch}}</view>
 			</view>
 		</scroll-view>
 	</view>

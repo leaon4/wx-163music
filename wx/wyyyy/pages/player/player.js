@@ -1,7 +1,7 @@
 const app = getApp();
 const ip=app.globalData.ip;
 const innerAudioContext=wx.createInnerAudioContext();
-//music.163.com/api/img/blur/
+//music.163.com/api/img/blur/2542070883747732.jpg2542070883747732
 
 const albumDatas=[
   {
@@ -170,6 +170,7 @@ Page({
   data: {
     song:null,
     top:0,
+    lrcItemHeight:50,
     lrc:null,
     lrcIndex:0,
     currentHightLight:0,
@@ -181,19 +182,20 @@ Page({
     hotComments
   },
   onLoad: function (option) {
-    // let id=option.song_id;
-    // let id="460043748";
+    let picUrl=decodeURIComponent(option.picUrl);
+    let picUrlExt=picUrl.match(/\d+\.[a-z]+$/)[0];
     this.setData({
       song:{
         id:option.song_id,
         name:option.name,
-        artists:JSON.parse(option.artists)
+        artists:JSON.parse(option.artists),
+        picUrl:app.globalData.imgFormat(picUrl,'playerAlbum'),
+        blurPicUrl:'//music.163.com/api/img/blur/'+picUrlExt
       }
     });
-    console.log(option)
-    let id="534542079";
+    console.log(this.data.song);
     wx.request({
-      url:`http://${ip}:11111/player?id=${id}`,
+      url:`http://${ip}:11111/player?id=${option.song_id}`,
       success:(res)=>{
         this._init(res.data);
       },
@@ -207,12 +209,10 @@ Page({
     innerAudioContext.src=data.url;
     innerAudioContext.autoplay=true;
     innerAudioContext.onPlay(()=>{
-      console.log('begin');
       this.lrcBegin();
     });
     innerAudioContext.onError((res)=>{
-      console.log(res);
-
+      console.error(res);
     });
     // 注册这个事件，currentTime才能准确
     innerAudioContext.onTimeUpdate(()=>{
@@ -222,32 +222,76 @@ Page({
   _lrcParse(data){
     let lrc=LRCparse(data.lyric);
     let lrc_ch=LRCparse(data.tlyric);
+    let arr=[];
+    for (let i in lrc){
+      arr.push({
+        time:Number(i),
+        lrc:lrc[i],
+        lrc_ch:lrc_ch[i]
+      });
+    }
+    this.setData({
+      lrc:arr,
+      lrcItemHeight:JSON.stringify(lrc_ch)!=='{}'?50:32
+    });
+
+    function LRCparse(lyric){
+      lyric=lyric.replace(/’/g,"'");
+      let json={};
+      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)\n/g;
+      lyric.replace(patt,(match,p1,p2,p3)=>{
+        let time=p1*60000+Number(p2)*1000;
+        json[time]=p3.trim();
+      });
+      return json;
+    }
+    /*let lrc=LRCparse(data.lyric);
+    let lrc_ch=LRCparse(data.tlyric);
     lrc.forEach((item,index)=>{
       if (lrc_ch[index]){
         item.lrc_ch=lrc_ch[index].lrc;
       }
     });
+    console.log(lrc_ch)
     this.setData({
-      lrc
+      lrc,
+      lrcItemHeight:lrc_ch.length?50:32
     });
 
-
     function LRCparse(lyric){
-      let arr=lyric.split('\n').slice(1);
-      let json=arr.map(item=>{
-        let timeArr=item.slice(1,9).split(':');
-        let time=timeArr[0]*60000+Number(timeArr[1])*1000;
-        return {
+      lyric=lyric.replace(/’/g,"'");
+      let json=[];
+      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)\n/g;
+      lyric.replace(patt,(match,p1,p2,p3)=>{
+        let time=p1*60000+Number(p2)*1000;
+        json.push({
           time,
-          lrc:item.slice(10)
+          lrc:p3.trim()
+        });
+      });
+      return json;
+    }*/
+    /*function LRCparse(lyric){
+      lyric=lyric.replace(/’/g,"'").replace(/\n$/,'');
+      let arr=lyric.split('\n');
+      let json=[];
+      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)$/;
+      arr.forEach(item=>{
+        let match=item.match(patt);
+        if (match){
+          let time=match[1]*60000+Number(match[2])*1000;
+          json.push({
+            time,
+            lrc:match[3].trim()
+          });
         }
       });
       return json;
-    }
+    }*/
   },
   lrcUp(){
     this.setData({
-      top:this.data.top+50,
+      top:this.data.top+this.data.lrcItemHeight,
       currentHightLight:this.data.currentHightLight+1
     });
   },
