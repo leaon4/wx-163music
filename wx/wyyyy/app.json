@@ -12,5 +12,6 @@
   },
   "usingComponents":{
     "song-list": "components/songlist/songlist"
-  }
+  },
+  "requiredBackgroundModes":["audio"]
 }

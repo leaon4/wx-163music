@@ -93,7 +93,7 @@ app.get('/player',async (req,res)=>{
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(json));
 	} catch (e){
-		console.log(e);
+		console.error(e);
 		res.end(e);
 	}
 });
@@ -266,11 +266,16 @@ function urlFormat(url){
 	return result;
 }
 function lyricFormat(lyric){
+	console.log(lyric)
+	fs.writeFile('test.txt',lyric,err=>{
+		if (err) throw err;
+	});
 	let json=JSON.parse(lyric);
 	let result={
 		lyric:json.lrc.lyric,
 		tlyric:json.tlyric.lyric
 	};
+	// console.log(result.tlyric)
 	return result;
 }
 /*

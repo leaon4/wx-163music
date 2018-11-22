@@ -193,7 +193,6 @@ Page({
         blurPicUrl:'//music.163.com/api/img/blur/'+picUrlExt
       }
     });
-    console.log(this.data.song);
     wx.request({
       url:`http://${ip}:11111/player?id=${option.song_id}`,
       success:(res)=>{
@@ -204,8 +203,12 @@ Page({
       }
     });
   },
+  prev(){
+    innerAudioContext.seek(150)
+  },
   _init(data){
     this._lrcParse(data);
+    console.log(this.data.lrc);
     innerAudioContext.src=data.url;
     innerAudioContext.autoplay=true;
     innerAudioContext.onPlay(()=>{
@@ -216,7 +219,7 @@ Page({
     });
     // 注册这个事件，currentTime才能准确
     innerAudioContext.onTimeUpdate(()=>{
-      // console.log(innerAudioContext.currentTime)
+      // console.info(innerAudioContext.currentTime)
     });
   },
   _lrcParse(data){
@@ -240,79 +243,57 @@ Page({
       let json={};
       let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)\n/g;
       lyric.replace(patt,(match,p1,p2,p3)=>{
-        let time=p1*60000+Number(p2)*1000;
+        let time=~~(p1*60000+Number(p2)*1000);
         json[time]=p3.trim();
       });
       return json;
     }
-    /*let lrc=LRCparse(data.lyric);
-    let lrc_ch=LRCparse(data.tlyric);
-    lrc.forEach((item,index)=>{
-      if (lrc_ch[index]){
-        item.lrc_ch=lrc_ch[index].lrc;
-      }
-    });
-    console.log(lrc_ch)
-    this.setData({
-      lrc,
-      lrcItemHeight:lrc_ch.length?50:32
-    });
-
-    function LRCparse(lyric){
-      lyric=lyric.replace(/’/g,"'");
-      let json=[];
-      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)\n/g;
-      lyric.replace(patt,(match,p1,p2,p3)=>{
-        let time=p1*60000+Number(p2)*1000;
-        json.push({
-          time,
-          lrc:p3.trim()
-        });
-      });
-      return json;
-    }*/
-    /*function LRCparse(lyric){
-      lyric=lyric.replace(/’/g,"'").replace(/\n$/,'');
-      let arr=lyric.split('\n');
-      let json=[];
-      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)$/;
-      arr.forEach(item=>{
-        let match=item.match(patt);
-        if (match){
-          let time=match[1]*60000+Number(match[2])*1000;
-          json.push({
-            time,
-            lrc:match[3].trim()
-          });
-        }
-      });
-      return json;
-    }*/
-  },
-  lrcUp(){
-    this.setData({
-      top:this.data.top+this.data.lrcItemHeight,
-      currentHightLight:this.data.currentHightLight+1
-    });
   },
   lrcBegin(){
     let lastTime=~~(innerAudioContext.currentTime*1000);
     let time=this.data.lrc[this.data.lrcIndex].time-lastTime;
-    this.data.playT=setTimeout(this.loop,time);
+    this.data.playT=setTimeout(this._loop,time);
   },
-  loop(){
-    if (this.data.lrcIndex>=this.data.lrc.length-2) return;
+  _loop(){
+
     if (this.data.lrcIndex>0){
-      this.lrcUp();
+      this._lrcUp();
+    } else {
+      this.setData({
+        lrcIndex:this.data.lrcIndex+1
+      });
     }
+    if (this.data.lrcIndex>=this.data.lrc.length) return;
+    // +150为修正偏差
+    let lastTime=~~(innerAudioContext.currentTime*1000)+150;
+    let time=this.data.lrc[this.data.lrcIndex].time-lastTime;
+    this.data.playT=setTimeout(this._loop,time);
+  },
+  _lrcUp(){
+    this.setData({
+      top:this.data.top+this.data.lrcItemHeight,
+      lrcIndex:this.data.lrcIndex+1
+    });
+  },
+  /*_loop(){
+    if (this.data.lrcIndex>0){
+      this._lrcUp();
+    }
+    if (this.data.lrcIndex>=this.data.lrc.length-1) return;
     // +150为修正偏差
     let lastTime=~~(innerAudioContext.currentTime*1000)+150;
     let time=this.data.lrc[this.data.lrcIndex+1].time-lastTime;
     this.setData({
       lrcIndex:this.data.lrcIndex+1
     });
-    this.data.playT=setTimeout(this.loop,time);
+    this.data.playT=setTimeout(this._loop,time);
   },
+  _lrcUp(){
+    this.setData({
+      top:this.data.top+this.data.lrcItemHeight,
+      currentHightLight:this.data.currentHightLight+1
+    });
+  },*/
   musicPause(){
     if (this.data.playState==='running'){
       clearTimeout(this.data.playT);

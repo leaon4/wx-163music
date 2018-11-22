@@ -1,18 +1,20 @@
 <image src="{{song.blurPicUrl}}" class="bgimage" mode="aspectFill"></image>
 <view class="page">
+	<div class="aaa" bindtap="prev">button</div>
 	<image src="../img/player/logo.png" class="logo" mode="aspectFit"></image>
 	<image src="../img/player/needle-ip6.png" mode="aspectFit" class="needle"></image>
-	<view class="disc-container" bindtap="musicPause">
+	<view class="disc-container">
 		<view class="disc" style="animation-play-state: {{playState}}">
 			<image mode="aspectFit" class="disc_1" src="{{song.picUrl}}"></image>
 			<image mode="aspectFit" class="disc_2" src="../img/player/disc-ip6.png"></image>
 			<image mode="aspectFit" class="disc_2" src="../img/player/disc_light-ip6.png"></image>
 		</view>
 		<view class="pause-icon" style="visibility: {{playState==='paused'?'visible':'hidden'}}"></view>
+		<view class="paruse-btn-area" bindtap="musicPause"></view>
 	</view>
 	<view class="lyrics-box">
 		<view class="lyrics-title">
-			<text style="font-size:18px">{{song.name}} - </text>
+			<text style="font-size:17px">{{song.name}} - </text>
 			<text
 				class="lyrics-title-artist"
 				wx:for="{{song.artists}}"
@@ -23,7 +25,7 @@
 		</view>
 		<scroll-view class="lyrics-content" scroll-y scroll-with-animation scroll-top="{{top}}">
 			<view
-				class="paragraph {{index===currentHightLight?'colorwhite':''}}"
+				class="paragraph {{index===lrcIndex-1?'colorwhite':''}}"
 				style="height:{{lrcItemHeight+'px'}}"
 				wx:for="{{lrc}}"
 				wx:for-index="index"

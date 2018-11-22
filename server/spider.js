@@ -92,6 +92,21 @@ async function postAjaxData(path,params){
 async function request(options,postData){
     return new Promise((resolve,reject)=>{
         const req=https.request(options,res=>{
+            let arr=[];
+            res.on('data',chunk=>{
+                arr.push(chunk);
+            });
+            res.on('end',err=>{
+                if (err) reject(err);
+                let data=Buffer.concat(arr).toString();
+                resolve(data);
+            });
+        });
+        req.on('error',e=>{
+            console.error(e);
+            reject(e);
+        });
+        /*const req=https.request(options,res=>{
             let data='';
             res.on('data',chunk=>{
                 data+=chunk;
@@ -104,7 +119,7 @@ async function request(options,postData){
         req.on('error',e=>{
             console.error(e);
             reject(e);
-        });
+        });*/
         postData&&req.write(postData);
         req.end();
     });
