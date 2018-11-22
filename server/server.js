@@ -76,7 +76,7 @@ app.get('/index/search/get',async (req,res)=>{
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(json));
 	} catch (e){
-		console.log(e);
+		console.error(e);
 		res.end(e);
 	}
 });
@@ -97,7 +97,18 @@ app.get('/player',async (req,res)=>{
 		res.end(e);
 	}
 });
-
+app.get('/player/get',async (req,res)=>{
+	let id=req.query.id;
+	try {
+		let hotComments=await spider.postAjaxData('/weapi/v1/resource/comments/get',{"resourceType":4,"resourceId":id,"limit":15,"commentsNum":5});
+		hotComments=hotCommentsFormat(hotComments);
+		res.header('Content-Type','application/json;charset=UTF-8');
+		res.end(JSON.stringify(hotComments));
+	} catch (e){
+		console.error(e);
+		res.end(e);
+	}
+});
 function songsFormat(songs){
 	let json=JSON.parse(songs).result;
 	let arr=json.map(item=>{
@@ -266,16 +277,28 @@ function urlFormat(url){
 	return result;
 }
 function lyricFormat(lyric){
-	console.log(lyric)
-	fs.writeFile('test.txt',lyric,err=>{
-		if (err) throw err;
-	});
 	let json=JSON.parse(lyric);
 	let result={
 		lyric:json.lrc.lyric,
 		tlyric:json.tlyric.lyric
 	};
-	// console.log(result.tlyric)
+	return result;
+}
+function hotCommentsFormat(comments){
+	let json=JSON.parse(comments);
+	let result=json.hotComments.map(item=>{
+		return {
+			user:{
+			    nickname: item.user.nickname,
+			    avatarUrl: item.user.avatarUrl,
+			    userId: item.user.userId,
+			},
+			commentId: item.commentId,
+			likedCount: item.likedCount,
+			time: item.time,
+			content: item.content
+		}
+	})
 	return result;
 }
 /*

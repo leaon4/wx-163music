@@ -10,7 +10,7 @@
 			<image mode="aspectFit" class="disc_2" src="../img/player/disc_light-ip6.png"></image>
 		</view>
 		<view class="pause-icon" style="visibility: {{playState==='paused'?'visible':'hidden'}}"></view>
-		<view class="paruse-btn-area" bindtap="musicPause"></view>
+		<view class="paruse-btn-area" bindtap="pauseBtnClick"></view>
 	</view>
 	<view class="lyrics-box">
 		<view class="lyrics-title">
@@ -36,6 +36,28 @@
 				<view wx:if="{{item.lrc_ch}}">{{item.lrc_ch}}</view>
 			</view>
 		</scroll-view>
+	</view>
+	<view class="section" style="margin-top:40px">
+		<view class="section-title">精彩评论</view>
+		<view
+			class="comment-item"
+			wx:for="{{hotComments}}"
+			wx:for-index="index"
+			wx:for-item="item"
+			wx:key="index"
+		>
+			<view class="comment-header">
+				<image src="{{item.user.avatarUrl}}" class="comment-avatar"></image>
+				<view class="comment-info">
+					<view class="comment-nickname">{{item.user.nickname}}</view>
+					<view class="comment-otherinfo">{{item.time}}</view>
+				</view>
+				<view class="comment-liked-count">
+					<text class="comment-otherinfo">{{item.likedCount}} ❤</text>
+				</view>
+			</view>
+			<view class="comment-content">{{item.content}}</view>
+		</view>
 	</view>
 	<view class="section" style="margin-top:65px;">
 		<view class="section-title">包含这首歌的歌单</view>
@@ -81,28 +103,6 @@
 		  <view class="playicon-box" bindtap="aa">
 		 	<view class="pause-icon"></view>
 		  </view>
-		</view>
-	</view>
-	<view class="section" style="margin-top:40px">
-		<view class="section-title">精彩评论</view>
-		<view
-			class="comment-item"
-			wx:for="{{hotComments}}"
-			wx:for-index="index"
-			wx:for-item="item"
-			wx:key="index"
-		>
-			<view class="comment-header">
-				<image src="{{item.user.avatarUrl}}" class="comment-avatar"></image>
-				<view class="comment-info">
-					<view class="comment-nickname">{{item.user.nickname}}</view>
-					<view class="comment-otherinfo">{{item.time}}</view>
-				</view>
-				<view class="comment-liked-count">
-					<text class="comment-otherinfo">{{item.likedCount}} ❤</text>
-				</view>
-			</view>
-			<view class="comment-content">{{item.content}}</view>
 		</view>
 	</view>
 </view>

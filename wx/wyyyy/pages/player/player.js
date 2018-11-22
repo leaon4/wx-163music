@@ -1,6 +1,6 @@
 const app = getApp();
 const ip=app.globalData.ip;
-const innerAudioContext=wx.createInnerAudioContext();
+const backgroundAudioManager=wx.getBackgroundAudioManager();
 //music.163.com/api/img/blur/2542070883747732.jpg2542070883747732
 
 const albumDatas=[
@@ -99,73 +99,6 @@ otherSongs.forEach(item=>{
   item.artistName=item.artists.map(item=>item.name).join(' / ');
 });
 
-const avatarEXT='webp?imageView&thumbnail=60x0&quality=75&tostatic=0&type=webp';
-const hotComments=[
-{
-    "user":
-    {
-        "nickname": "Pmok",
-        "avatarUrl": "http://p1.music.126.net/yANLDaiPbR-f5ifnVs6ENw==/109951163120543268.jpg",
-        "userId": 342773635,
-    },
-    "commentId": 375215448,
-    "likedCount": 67639,
-    "time": 1494060119323,
-    "content": "我一女生看NBA，听电音，唱Rap，我觉得没毛病🙃"
-},
-{
-    "user":
-    {
-        "nickname": "MARVEL-漫威",
-        "avatarUrl": "http://p1.music.126.net/SIoAfmcr578DptZF8Up-WQ==/109951162859085597.jpg",
-        "userId": 326842539,
-    },
-    "commentId": 331948232,
-    "likedCount": 52239,
-    "time": 1489676156971,
-    "content": "虽然有人说查斯特上年纪了，吼不动了，但是我们的信仰怎么可能会改变呢？"
-},
-{
-    "user":
-    {
-        "nickname": "仲夏恋上秋",
-        "avatarUrl": "http://p2.music.126.net/njbUU5CwQjOHBZSJ4iWFbg==/109951163575877867.jpg",
-        "userId": 96654217,
-    },
-    "commentId": 333170406,
-    "likedCount": 40826,
-    "time": 1489812327421,
-    "content": "网易云音乐上线了4.0版本，用户纷纷表示没有什么大变化，难道只有我发现韩国榜单消失了吗？云音乐就是这么有态度的良心软件。音乐无国界，但听众有国界！[强][强][强]"
-},
-{
-    "user":
-    {
-        "nickname": "林肯公园售票处",
-        "avatarUrl": "http://p2.music.126.net/sJSUAn5vJjJCMC20hNww9g==/109951163572407451.jpg",
-        "userId": 379167606,
-    },
-    "commentId": 331948511,
-    "likedCount": 17918,
-    "time": 1489676428309,
-    "content": "#Linkin Park# 公布了《One More Light》的歌单。共十首《Nobody Can Save Me》；《Good Goodbye》；《Talking To Myself》；《Battle Symphony》；《Invisible》；《Heavy》；《Sorry For Now》；《Halfway Right》；《One More Light》；《Sharp Edges》。专辑将于5月19日发行，小伙伴们坐等新砖吧。"
-},
-{
-    "user":
-    {
-        "nickname": "AwkwaMat",
-        "avatarUrl": "http://p2.music.126.net/5MO6UCO9EBphos4ErSRF9w==/109951163298847770.jpg",
-        "userId": 55313989,
-    },
-    "commentId": 331964395,
-    "likedCount": 14911,
-    "time": 1489677205494,
-    "content": "与其说Linkin Park由原来的摇滚变得太Pop，辨识度不高，还不如说每张专辑、每首歌都在探索新的旋律、编曲与唱法，旋律真的很好听啊[爱心]"
-}];
-hotComments.forEach(item=>{
-  item.user.avatarUrl=item.user.avatarUrl.slice(0,-3)+avatarEXT;
-  item.time=new Date(item.time).toLocaleString().split(' ')[0].replace('/','年').replace('/','月');
-});
-
 Page({
   data: {
     song:null,
@@ -173,13 +106,12 @@ Page({
     lrcItemHeight:50,
     lrc:null,
     lrcIndex:0,
-    currentHightLight:0,
     playState:'running',
     playT:0,
     albumDatas,
     icon:app.globalData.icon,
     otherSongs,
-    hotComments
+    hotComments:null,
   },
   onLoad: function (option) {
     let picUrl=decodeURIComponent(option.picUrl);
@@ -202,23 +134,36 @@ Page({
         console.error(e);
       }
     });
+    wx.request({
+      url:`http://${ip}:11111/player/get?id=${option.song_id}`,
+      success:(res)=>{
+        this._commentsFormat(res.data);
+        this.setData({
+          hotComments:res.data
+        });
+      },
+      fail(e){
+        console.error(e);
+      }
+    });
   },
   prev(){
-    innerAudioContext.seek(150)
+    backgroundAudioManager.seek(150)
   },
   _init(data){
     this._lrcParse(data);
-    console.log(this.data.lrc);
-    innerAudioContext.src=data.url;
-    innerAudioContext.autoplay=true;
-    innerAudioContext.onPlay(()=>{
-      this.lrcBegin();
-    });
-    innerAudioContext.onError((res)=>{
+    backgroundAudioManager.title=this.data.song.name;
+    backgroundAudioManager.epname =this.data.song.name;
+    backgroundAudioManager.singer = this.data.song.artists[0].name;
+    backgroundAudioManager.coverImgUrl = this.data.song.picUrl;
+    backgroundAudioManager.src = data.url;
+    backgroundAudioManager.onPlay(this.onMusicPlay);
+    backgroundAudioManager.onPause(this.onMusicPause);
+    backgroundAudioManager.onError((res)=>{
       console.error(res);
     });
     // 注册这个事件，currentTime才能准确
-    innerAudioContext.onTimeUpdate(()=>{
+    backgroundAudioManager.onTimeUpdate(()=>{
       // console.info(innerAudioContext.currentTime)
     });
   },
@@ -250,7 +195,7 @@ Page({
     }
   },
   lrcBegin(){
-    let lastTime=~~(innerAudioContext.currentTime*1000);
+    let lastTime=~~(backgroundAudioManager.currentTime*1000);
     let time=this.data.lrc[this.data.lrcIndex].time-lastTime;
     this.data.playT=setTimeout(this._loop,time);
   },
@@ -265,7 +210,7 @@ Page({
     }
     if (this.data.lrcIndex>=this.data.lrc.length) return;
     // +150为修正偏差
-    let lastTime=~~(innerAudioContext.currentTime*1000)+150;
+    let lastTime=~~(backgroundAudioManager.currentTime*1000)+150;
     let time=this.data.lrc[this.data.lrcIndex].time-lastTime;
     this.data.playT=setTimeout(this._loop,time);
   },
@@ -275,40 +220,36 @@ Page({
       lrcIndex:this.data.lrcIndex+1
     });
   },
-  /*_loop(){
-    if (this.data.lrcIndex>0){
-      this._lrcUp();
-    }
-    if (this.data.lrcIndex>=this.data.lrc.length-1) return;
-    // +150为修正偏差
-    let lastTime=~~(innerAudioContext.currentTime*1000)+150;
-    let time=this.data.lrc[this.data.lrcIndex+1].time-lastTime;
-    this.setData({
-      lrcIndex:this.data.lrcIndex+1
-    });
-    this.data.playT=setTimeout(this._loop,time);
-  },
-  _lrcUp(){
-    this.setData({
-      top:this.data.top+this.data.lrcItemHeight,
-      currentHightLight:this.data.currentHightLight+1
-    });
-  },*/
-  musicPause(){
-    if (this.data.playState==='running'){
-      clearTimeout(this.data.playT);
-      innerAudioContext.pause();
-      this.setData({
-        playState:'paused'
-      });
+  pauseBtnClick(){
+    if (backgroundAudioManager.paused){
+      backgroundAudioManager.play();
     } else {
-      innerAudioContext.play();
-      this.setData({
-        playState:'running'
-      });
+      backgroundAudioManager.pause();
     }
+  },
+  onMusicPlay(){
+    this.setData({
+      playState:'running'
+    });
+    this.lrcBegin();
+  },
+  onMusicPause(){
+    clearTimeout(this.data.playT);
+    this.setData({
+      playState:'paused'
+    });
   },
   aa(){
     console.log(1)
+  },
+  _commentsFormat(hotComments){
+    hotComments.forEach(item=>{
+      item.user.avatarUrl=app.globalData.imgFormat(item.user.avatarUrl,'avatar');
+      let date=new Date(item.time);
+      item.time=date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日';
+      if (item.likedCount>=100000){
+        item.likedCount=(item.likedCount/10000).toFixed(1).replace(/\.0$/,'')+'万';
+      }
+    });
   }
 });
