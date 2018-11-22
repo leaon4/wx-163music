@@ -109,6 +109,30 @@ app.get('/player/get',async (req,res)=>{
 		res.end(e);
 	}
 });
+app.get('/player/simiPlaylist',async (req,res)=>{
+	let id=req.query.id;
+	try {
+		let playlist=await spider.postAjaxData('/weapi/discovery/simiPlaylist',{"songid":id});
+		playlist=playlistFormat(playlist);
+		res.header('Content-Type','application/json;charset=UTF-8');
+		res.end(JSON.stringify(playlist));
+	} catch (e){
+		console.error(e);
+		res.end(e);
+	}
+});
+app.get('/player/simiSong',async (req,res)=>{
+	let id=req.query.id;
+	try {
+		let simiSong=await spider.postAjaxData('/weapi/v1/discovery/simiSong',{"songid":id});
+		simiSong=simiSongFormat(simiSong);
+		res.header('Content-Type','application/json;charset=UTF-8');
+		res.end(JSON.stringify(simiSong));
+	} catch (e){
+		console.error(e);
+		res.end(e);
+	}
+});
 function songsFormat(songs){
 	let json=JSON.parse(songs).result;
 	let arr=json.map(item=>{
@@ -299,6 +323,46 @@ function hotCommentsFormat(comments){
 			content: item.content
 		}
 	})
+	return result;
+}
+function playlistFormat(playlist){
+	let json=JSON.parse(playlist);
+	let result=json.playlists.map(item=>{
+		return {
+			name:item.name,
+			playCount:item.playCount,
+			coverImgUrl:item.coverImgUrl,
+			creator:{
+				nickname:item.creator.nickname
+			}
+		}
+	});
+	return result;
+}
+function simiSongFormat(simiSong){
+	console.log(simiSong)
+	let json=JSON.parse(simiSong);
+	let result=json.songs.map(item=>{
+		return {
+			id:item.id,
+			name:item.name,
+			album:{
+				id:item.al.id,
+				name:item.al.name,
+				picUrl:item.al.picUrl
+			},
+			artists:item.ar.map(item2=>{
+				return {
+					id:item2.id,
+					name:item2.name
+				}
+			}),
+			privilege:{
+				maxbr:item.privilege.maxbr
+			},
+			alias:item.alia
+		}
+	});
 	return result;
 }
 /*

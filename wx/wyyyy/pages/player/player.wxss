@@ -161,12 +161,13 @@
 .playicon-box{
 	position: relative;
 	transform:scale(0.35);
-	/*border: 1px solid #fff;*/
-	/*width:80px;*/
-	/*height:80px;*/
-	/*padding-right:10px;*/
 	margin-right:20px;
-	/*opacity: 0.9;*/
+}
+.comments{
+	/*border: 1px solid red;*/
+	height: 700px;
+	overflow: hidden;
+	position: relative;
 }
 .comment-item{
 	padding-bottom: 10px;
@@ -205,5 +206,27 @@
 	margin-left:50px;
 	/*margin-bottom:10px;*/
 	border-bottom: 1px solid rgba(255,255,255,0.2);
-
+}
+.comment-content.hidden{
+	/*background-color: red;*/
+	height:13px;
+	overflow: hidden;
+	opacity: 0.8;
+	border-bottom: none;
+}
+.more-btn-board{
+	width:100vw;
+	height:34px;
+	padding-top:5px;
+}
+.more-btn{
+	font-size: 14px;
+	border:1px solid #d8d8d8;
+	border-radius: 50px;
+	width:353px;
+	height:34px;
+	margin:auto;
+	text-align:center;
+	line-height: 34px;
+	background-color: rgba(0,0,0,.12);
 }

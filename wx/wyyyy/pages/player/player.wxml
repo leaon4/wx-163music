@@ -44,7 +44,8 @@
 			wx:for="{{hotComments}}"
 			wx:for-index="index"
 			wx:for-item="item"
-			wx:key="index"
+			wx:key="{{index}}"
+			wx:if="{{index<commentsLimit}}"
 		>
 			<view class="comment-header">
 				<image src="{{item.user.avatarUrl}}" class="comment-avatar"></image>
@@ -56,8 +57,11 @@
 					<text class="comment-otherinfo">{{item.likedCount}} ❤</text>
 				</view>
 			</view>
-			<view class="comment-content">{{item.content}}</view>
+			<view class="comment-content {{index===commentsLimit-1?'hidden':''}}">{{item.content}}</view>
 		</view>
+	</view>
+	<view wx:if="{{commentsLimit<1000}}" class="more-btn-board">
+		<view class="more-btn" bindtap="commentsExpand">展开更多评论</view>
 	</view>
 	<view class="section" style="margin-top:65px;">
 		<view class="section-title">包含这首歌的歌单</view>

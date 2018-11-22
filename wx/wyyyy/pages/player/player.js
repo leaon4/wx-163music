@@ -29,13 +29,6 @@ const albumDatas=[
     }
   }
 ];
-albumDatas.forEach(item=>{
-  if (item.playCount>=100000000){
-    item.playCount=(item.playCount/100000000).toFixed(1)+'亿';
-  } else if (item.playCount>=10000){
-    item.playCount=(item.playCount/10000).toFixed(1)+'万';
-  }
-});
 
 const imgEXT='webp?imageView&thumbnail=80x0&quality=75&tostatic=0&type=webp';
 
@@ -108,10 +101,11 @@ Page({
     lrcIndex:0,
     playState:'running',
     playT:0,
-    albumDatas,
+    albumDatas:null,
     icon:app.globalData.icon,
     otherSongs,
     hotComments:null,
+    commentsLimit:5,
   },
   onLoad: function (option) {
     let picUrl=decodeURIComponent(option.picUrl);
@@ -141,6 +135,31 @@ Page({
         this.setData({
           hotComments:res.data
         });
+      },
+      fail(e){
+        console.error(e);
+      }
+    });
+    wx.request({
+      url:`http://${ip}:11111/player/simiPlaylist?id=${option.song_id}`,
+      success:(res)=>{
+        this._simiListFormat(res.data);
+        this.setData({
+          albumDatas:res.data
+        });
+      },
+      fail(e){
+        console.error(e);
+      }
+    });
+    wx.request({
+      url:`http://${ip}:11111/player/simiSong?id=${option.song_id}`,
+      success:(res)=>{
+        /*this._simiListFormat(res.data);
+        this.setData({
+          albumDatas:res.data
+        });*/
+        console.log(res.data)
       },
       fail(e){
         console.error(e);
@@ -249,6 +268,20 @@ Page({
       item.time=date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日';
       if (item.likedCount>=100000){
         item.likedCount=(item.likedCount/10000).toFixed(1).replace(/\.0$/,'')+'万';
+      }
+    });
+  },
+  commentsExpand(){
+    this.setData({
+      commentsLimit:1000
+    });
+  },
+  _simiListFormat(list){
+    list.forEach(item=>{
+      if (item.playCount>=100000000){
+        item.playCount=(item.playCount/100000000).toFixed(1)+'亿';
+      } else if (item.playCount>=10000){
+        item.playCount=(item.playCount/10000).toFixed(1)+'万';
       }
     });
   }
