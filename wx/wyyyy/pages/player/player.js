@@ -152,19 +152,15 @@ Page({
         console.error(e);
       }
     });
-    wx.request({
+    /*wx.request({
       url:`http://${ip}:11111/player/simiSong?id=${option.song_id}`,
       success:(res)=>{
-        /*this._simiListFormat(res.data);
-        this.setData({
-          albumDatas:res.data
-        });*/
         console.log(res.data)
       },
       fail(e){
         console.error(e);
       }
-    });
+    });*/
   },
   prev(){
     backgroundAudioManager.seek(150)
@@ -205,7 +201,7 @@ Page({
     function LRCparse(lyric){
       lyric=lyric.replace(/’/g,"'");
       let json={};
-      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)\n/g;
+      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)\n?/g;
       lyric.replace(patt,(match,p1,p2,p3)=>{
         let time=~~(p1*60000+Number(p2)*1000);
         json[time]=p3.trim();

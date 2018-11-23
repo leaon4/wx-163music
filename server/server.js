@@ -113,6 +113,18 @@ app.get('/player/simiPlaylist',async (req,res)=>{
 	let id=req.query.id;
 	try {
 		let playlist=await spider.postAjaxData('/weapi/discovery/simiPlaylist',{"songid":id});
+		// 暂不知道如何解决偶尔返回失败的问题。只能失败后继续请求
+		let wrongNum=0;
+		while (playlist.length<50){
+			console.warn('simiPlaylist cannot get!\n'+playlist);
+			wrongNum++;
+			if (wrongNum>5){
+				console.error('simiPlaylist error!!!')
+				res.end();
+				return;
+			}
+			playlist=await spider.postAjaxData('/weapi/discovery/simiPlaylist',{"songid":id});
+		}
 		playlist=playlistFormat(playlist);
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(playlist));
@@ -125,6 +137,7 @@ app.get('/player/simiSong',async (req,res)=>{
 	let id=req.query.id;
 	try {
 		let simiSong=await spider.postAjaxData('/weapi/v1/discovery/simiSong',{"songid":id});
+		console.log(simiSong)
 		simiSong=simiSongFormat(simiSong);
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(simiSong));
@@ -340,7 +353,6 @@ function playlistFormat(playlist){
 	return result;
 }
 function simiSongFormat(simiSong){
-	console.log(simiSong)
 	let json=JSON.parse(simiSong);
 	let result=json.songs.map(item=>{
 		return {
