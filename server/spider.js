@@ -29,7 +29,7 @@ function aesDecrypt(encrypted, key, iv) {
 
 // 与cookie也无关
 // let cookieNum=0;
-function getOptions(type,path,contentLength){
+function getOptions(type,path,contentLength,referer){
     let options={
         hostname:'music.163.com',
         port:443,
@@ -48,11 +48,11 @@ function getOptions(type,path,contentLength){
     // 需要post参数的情况
     } else if (type==='params'){
         options.path=path;
-        // options.headers['Connection']='keep-alive';
-        options.headers['Referer']='https://music.163.com/m/song?id=1323303094'
-
         options.headers['Content-Length']=contentLength;
         options.headers['Cookie']='_iuqxldmzr_=32; _ntes_nnid=917555d20530d5051254730b97d64f8a,1540438527791; _ntes_nuid=917555d20530d5051254730b97d64f8a; abt=5; __utmc=94650624; __utmz=94650624.1540777569.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); playerid=64144041; __utma=94650624.1987073821.1540777569.1540777569.1540781568.2; JSESSIONID-WYYY=dyIdYgx%5CtJmQZC7b%2BT1RlIhojSDBMjgqKDqBTDrbE0m6Vl1ut%2F3tSee8ClTismWW88E6nvT%5C%5C5v1EIQDFNb360Kp7MlbWWAs0qeFYjCaeEoCUtoed5OxRWCooNQ%5CGDa%2FCfpg%5CU3%2B3nHN48ESQrPxl%2BPZrbHT50MTS2M6j42%5Cb%2FUoCTUE%3A1540796778991; WM_NI=reHqTmouG1gnCXiIo1JCSDL1uan8MUHAQDETbuiGD8xaI5tIz0Y%2Bo0ypFy6vAUwo%2BFVpMYPXo4KwDlTn2vvher3ef3S4KLZCj4kS0iARHPIqlWwbpednO18yb1z3PaekbEY%3D; WM_NIKE=9ca17ae2e6ffcda170e2e6eed2ee6fa6b9e5ccf27f9ab88bb6d55a838f8eabbb6a8eaac08ded5d819bfbd1f62af0fea7c3b92ab2bb8892d767adab89d2e6668188a7aaee3b8a9d9da5cf3bb7bfa2d9d05f8c9f9fa5c860a2aba7a8c734bcbf87d6f743baf097ccee3cbbb08a9ab57e838bb990aa4e96b083bad354adec8598c76898b2fe97f564a7aefd86e53991ec85add949aaeca5b4b363838e88b1cc7bb089b983f36fa8b281d2bb73a2efb6d4d36ba7b5aea6dc37e2a3; WM_TID=KaKq1aOs26JAUARRQEJtfY6s13CDApxk';
+        if (referer){
+            options.headers['Referer']=referer;
+        }
 
         // let cookie=[];
         // cookie[cookie.length]='abt=9; JSESSIONID-WYYY=tdbWdSlEB09O8iBQS7dtjO9WpPw0nc%2Fb%2Fqi2whUvvUEXpcDh7s%5CTt5%2Fww1P3Ap%2F1zEIdwu4dyFX1yc9dGrZa94Mc%5CD%2FBJ1UWNnPk7Z%2F8QxEVD%5CqqsFZg3G3Y7RrRefpvdhDBdqnEC2ZFNzXRpJ41qYCpWYautnguFK0IazP8FugJZwSw%3A1542946099369; _iuqxldmzr_=32; _ntes_nnid=a46029c62e4cf9a16580be418254d8ed,1542944299390; _ntes_nuid=a46029c62e4cf9a16580be418254d8ed; WM_NI=318RSi8VslDcyaqQPFhxOOB3ofPmLaELX1%2B%2FcjoR3B0MoQ5fgKYok2Ds6Xhkf1FtolNU2S9G1pY4xS7%2B794i7qUi7hW5GJoi%2FHfkQSHcBvX%2B2UFVF9P4CJX1xrgN8pPudUU%3D; WM_NIKE=9ca17ae2e6ffcda170e2e6eed0d741f69cab9baa5cba9a8ba2c84b879f9bbab845a5aff78ed66a91e9828ed22af0fea7c3b92af1eff8b3d263fc8abd8dc769bbbfbfb2d34eaca881b0c139adbaa08ecf6b879498d2aa25a1b6a1b3b24af493a1b2b86ea5959790ea3a88adfab9eb61a6ef8a95ee688e8bfeb4bc4df3b097d5fb59f5f5f9dab763f5af9b8ab66495eb89abee63ed98aa8cd4598cbd8e97db21f28b8ab7c53394ec8dabdb3bbcaea9afbb7c94abacb6d837e2a3; WM_TID=Rn4yaRsTCN5AEFQUEUJoK1rtyHOT%2BJ3G'
@@ -78,24 +78,6 @@ function getOptions(type,path,contentLength){
     return options;
 }
 
-/*async function get(url){
-    return new Promise((resolve,reject)=>{
-        https.get(url,res=>{
-            let data='';
-            res.on('data',chunk=>{
-                data+=chunk;
-            });
-            res.on('end',err=>{
-                if (err) reject(err);
-                resolve(data);
-            });
-        }).on('error',e=>{
-            console.error(e);
-            reject(e);
-        });
-    });
-}*/
-
 async function getAjaxData(path){
     // 获取普通接口所用的通用postdata
     const postData='params=glFEqcF3L0TLHKj2N%2B%2Bpr273l7vsWXIUipM%2BcszLd%2Fk%3D&encSecKey=dbdcd74d72aff5fabb4aacbe791529240b4c7150cc7652e28b031cad70232ba8c6c565bf3c3f85bb9f49940067245698babe43b3d9d4d57066a6d1186488203fbdb03a3cfdfd9db6eafb4c76623f5c6f6d0b1cbf70a8002fa74cc9e8fb43528d56f679b87f8d040fab4b7eecba8151fc05e2c236e2dd868d987ab149424eccdb';
@@ -103,9 +85,9 @@ async function getAjaxData(path){
     let json=await request(options,postData);
     return json;
 }
-async function postAjaxData(path,params){
+async function postAjaxData(path,params,referer){
     let str=getSearchPostData(params);
-    let options=getOptions('params',path,str.length);
+    let options=getOptions('params',path,str.length,referer);
     return await request(options,str);
 }
 
@@ -126,20 +108,6 @@ async function request(options,postData){
             console.error(e);
             reject(e);
         });
-        /*const req=https.request(options,res=>{
-            let data='';
-            res.on('data',chunk=>{
-                data+=chunk;
-            });
-            res.on('end',err=>{
-                if (err) reject(err);
-                resolve(data);
-            });
-        });
-        req.on('error',e=>{
-            console.error(e);
-            reject(e);
-        });*/
         postData&&req.write(postData);
         req.end();
     });

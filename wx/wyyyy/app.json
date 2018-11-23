@@ -11,7 +11,8 @@
     "navigationBarTextStyle":"black"
   },
   "usingComponents":{
-    "song-list": "components/songlist/songlist"
+    "song-list": "components/songlist/songlist",
+    "song-list2": "components/cover_songlist/cover_songlist"
   },
   "requiredBackgroundModes":["audio"]
 }

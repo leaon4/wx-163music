@@ -1,4 +1,4 @@
-<view
+<!-- <view
   class="songs-item"
   wx:for="{{songs}}"
   wx:for-index="index"
@@ -22,7 +22,32 @@
       <text> - {{item.album.name}}</text>
     </view>     
   </view>
-  <!-- <image src="/pages/img/play.png" class="playicon"></image> -->
+  <image src="/pages/img/play.png" class="playicon"></image>
+</view> -->
+
+<view
+  class="songs-item"
+  wx:for="{{songs}}"
+  wx:for-index="index"
+  wx:for-item="item"
+  wx:key="{{index}}"
+  data-id="{{item.id}}"
+  data-name="{{item.name}}"
+  data-artists="{{item.artists}}"
+  data-pic-url="{{item.album.picUrl}}"
+  bindtap="listTap"
+>
+  <image src="{{item.album.formattedPicUrl}}" class="album-img"></image>
+  <view class="songs-item-content">
+    <view class="songs-item-title">
+      <text>{{item.name}}</text>
+    </view>
+    <view class="songs-message">
+      <!-- <text>{{item.artistName}} - {{item.album.name}}</text> -->
+      <text wx:for="{{item.artists}}" wx:for-item="artist" wx:for-index="num" wx:key="{{num}}">{{num===0?artist.name:' / '+artist.name}}</text>
+      <text> - {{item.album.name}}</text>
+    </view>     
+  </view>
   <view class="playicon-box">
     <view class="pause-icon"></view>
   </view>

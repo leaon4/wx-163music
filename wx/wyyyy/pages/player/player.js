@@ -3,95 +3,6 @@ const ip=app.globalData.ip;
 const backgroundAudioManager=wx.getBackgroundAudioManager();
 //music.163.com/api/img/blur/2542070883747732.jpg2542070883747732
 
-const albumDatas=[
-  {
-    name:'细数那些值得单曲循环的英文歌',
-    playCount:10189024,
-    coverImgUrl:'../img/player/1.webp',
-    creator:{
-      nickname:'鹿白川'
-    }
-  },
-  {
-    name:'励志摇滚 · 人生本是永无止境的攀登',
-    playCount:6340676,
-    coverImgUrl:'../img/player/2.webp',
-    creator:{
-      nickname:'xept'
-    }
-  },
-  {
-    name:'支撑美术画画Or肝作业的力量 耐听 杂食',
-    playCount:7877379,
-    coverImgUrl:'../img/player/3.webp',
-    creator:{
-      nickname:'樱剑乱舞'
-    }
-  }
-];
-
-const imgEXT='webp?imageView&thumbnail=80x0&quality=75&tostatic=0&type=webp';
-
-const otherSongs=[
-  {
-    name:'Heavy',
-    artists:[{
-        name: "Linkin Park"
-      },{
-        name: "Kiiara"
-      }
-    ],
-    album:{
-      name: "One More Light",
-      picUrl: "http://p4.music.126.net/AKMCVZLlpqhatVIAB7ES7w==/18769762999562848.jpg"
-    }
-  },
-  {
-    name:'Immortals (End Credit Version) ["From "Big Hero 6”]',
-    artists:[{
-        name: "Fall Out Boy"
-      }],
-    album:{
-      name: 'Immortals (End Credit Version) ["From "Big Hero 6”]',
-      picUrl: "http://p4.music.126.net/bNUPs_rIYO99Vq9QXjiCEg==/109951163219122966.jpg"
-    }
-  },
-  {
-    name:'No Vacancy',
-    artists:[{
-        name: "OneRepublic"
-      }],
-    album:{
-      name: 'No Vacancy',
-      picUrl: "http://p3.music.126.net/uZAjQoOgp36qDiFN-BIKgA==/19149094509449986.jpg"
-    }
-  },
-  {
-    name:'Demons',
-    artists:[{
-        name: "Imagine Dragons"
-      }],
-    album:{
-      name: 'Night Visions',
-      picUrl: "http://p4.music.126.net/xjB2VeMBFT53xOrNb2Pp5A==/2539871861093257.jpg"
-    }
-  },
-  {
-    name:`Don't Threaten Me With A Good Time`,
-    artists:[{
-        name: "Panic! At The Disco"
-      }],
-    album:{
-      name: 'Death Of A Bachelor',
-      picUrl: "http://p4.music.126.net/hoPofH2eXrgAlkvgXqiDFQ==/3296335861497708.jpg"
-    }
-  },
-];
-otherSongs.forEach(item=>{
-  item.album.picUrl=item.album.picUrl.slice(0,-3)+imgEXT;
-  item.artistName=item.artists.map(item=>item.name).join(' / ');
-});
-
 Page({
   data: {
     song:null,
@@ -101,9 +12,9 @@ Page({
     lrcIndex:0,
     playState:'running',
     playT:0,
-    albumDatas:null,
+    simiPlaylist:null,
     icon:app.globalData.icon,
-    otherSongs,
+    simiSongs:null,
     hotComments:null,
     commentsLimit:5,
   },
@@ -145,22 +56,25 @@ Page({
       success:(res)=>{
         this._simiListFormat(res.data);
         this.setData({
-          albumDatas:res.data
+          simiPlaylist:res.data
         });
       },
       fail(e){
         console.error(e);
       }
     });
-    /*wx.request({
+    wx.request({
       url:`http://${ip}:11111/player/simiSong?id=${option.song_id}`,
       success:(res)=>{
-        console.log(res.data)
+        this._simiSongsFormat(res.data);
+        this.setData({
+          simiSongs:res.data
+        });
       },
       fail(e){
         console.error(e);
       }
-    });*/
+    });
   },
   prev(){
     backgroundAudioManager.seek(150)
@@ -246,16 +160,16 @@ Page({
     this.setData({
       playState:'running'
     });
-    this.lrcBegin();
+    // 有的歌词格式不对，（比如有的说不支持自动滚动）
+    if (this.data.lrc.length){
+      this.lrcBegin();
+    }
   },
   onMusicPause(){
     clearTimeout(this.data.playT);
     this.setData({
       playState:'paused'
     });
-  },
-  aa(){
-    console.log(1)
   },
   _commentsFormat(hotComments){
     hotComments.forEach(item=>{
@@ -280,5 +194,12 @@ Page({
         item.playCount=(item.playCount/10000).toFixed(1)+'万';
       }
     });
+  },
+  _simiSongsFormat(songs){
+    songs.forEach(item=>{
+      // item.album.picUrl=item.album.picUrl.slice(0,-3)+imgEXT;
+      item.album.formattedPicUrl=app.globalData.imgFormat(item.album.picUrl,'simiSong');
+      // item.artistName=item.artists.map(item=>item.name).join(' / ');
+    }); 
   }
 });

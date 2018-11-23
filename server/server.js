@@ -112,19 +112,8 @@ app.get('/player/get',async (req,res)=>{
 app.get('/player/simiPlaylist',async (req,res)=>{
 	let id=req.query.id;
 	try {
-		let playlist=await spider.postAjaxData('/weapi/discovery/simiPlaylist',{"songid":id});
-		// 暂不知道如何解决偶尔返回失败的问题。只能失败后继续请求
-		let wrongNum=0;
-		while (playlist.length<50){
-			console.warn('simiPlaylist cannot get!\n'+playlist);
-			wrongNum++;
-			if (wrongNum>5){
-				console.error('simiPlaylist error!!!')
-				res.end();
-				return;
-			}
-			playlist=await spider.postAjaxData('/weapi/discovery/simiPlaylist',{"songid":id});
-		}
+		let referer='https://music.163.com/m/song?id='+id;
+		let playlist=await spider.postAjaxData('/weapi/discovery/simiPlaylist',{"songid":id},referer);
 		playlist=playlistFormat(playlist);
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(playlist));
@@ -136,8 +125,8 @@ app.get('/player/simiPlaylist',async (req,res)=>{
 app.get('/player/simiSong',async (req,res)=>{
 	let id=req.query.id;
 	try {
-		let simiSong=await spider.postAjaxData('/weapi/v1/discovery/simiSong',{"songid":id});
-		console.log(simiSong)
+		let referer='https://music.163.com/m/song?id='+id;
+		let simiSong=await spider.postAjaxData('/weapi/v1/discovery/simiSong',{"songid":id},referer);
 		simiSong=simiSongFormat(simiSong);
 		res.header('Content-Type','application/json;charset=UTF-8');
 		res.end(JSON.stringify(simiSong));
@@ -359,11 +348,11 @@ function simiSongFormat(simiSong){
 			id:item.id,
 			name:item.name,
 			album:{
-				id:item.al.id,
-				name:item.al.name,
-				picUrl:item.al.picUrl
+				id:item.album.id,
+				name:item.album.name,
+				picUrl:item.album.picUrl
 			},
-			artists:item.ar.map(item2=>{
+			artists:item.artists.map(item2=>{
 				return {
 					id:item2.id,
 					name:item2.name
@@ -372,7 +361,7 @@ function simiSongFormat(simiSong){
 			privilege:{
 				maxbr:item.privilege.maxbr
 			},
-			alias:item.alia
+			alias:item.alias
 		}
 	});
 	return result;

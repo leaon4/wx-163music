@@ -60,16 +60,16 @@
 			<view class="comment-content {{index===commentsLimit-1?'hidden':''}}">{{item.content}}</view>
 		</view>
 	</view>
-	<view wx:if="{{commentsLimit<1000}}" class="more-btn-board">
+	<view wx:if="{{commentsLimit<1000&&hotComments.length>5}}" class="more-btn-board">
 		<view class="more-btn" bindtap="commentsExpand">展开更多评论</view>
 	</view>
-	<view class="section" style="margin-top:65px;">
+	<view wx:if="simiPlaylist.length" class="section" style="margin-top:65px;">
 		<view class="section-title">包含这首歌的歌单</view>
 		<view class="album">
 			<view class="intro-content-player">
 			  <view
 			    class="intro-item"
-			    wx:for="{{albumDatas}}"
+			    wx:for="{{simiPlaylist}}"
 			    wx:for-index="index"
 			    wx:for-item="item"
 			    wx:key="index"
@@ -85,11 +85,11 @@
 			</view>
 		</view>
 	</view>
-	<view class="section" style="margin-top:20px">
+	<view class="section" style="margin-top:20px;padding-bottom: 20px;">
 		<view class="section-title">喜欢这首歌的人也听</view>
-		<view
+		<!-- <view
 		  class="songs-item"
-		  wx:for="{{otherSongs}}"
+		  wx:for="{{simiSongs}}"
 		  wx:for-index="index"
 		  wx:for-item="item"
 		  wx:key="index"
@@ -107,6 +107,8 @@
 		  <view class="playicon-box" bindtap="aa">
 		 	<view class="pause-icon"></view>
 		  </view>
-		</view>
+		</view> -->
+		<song-list2 songs="{{simiSongs}}"></song-list2>
+		<!-- <song-list songs="{{simiSongs}}"></song-list> -->
 	</view>
 </view>

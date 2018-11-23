@@ -24,6 +24,7 @@
 .intro-item{
 	flex:1;
 	position: relative;
+	max-width:34vw;
 }
 .intro-image{
 	width:97.5%;

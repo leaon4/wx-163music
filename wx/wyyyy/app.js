@@ -48,6 +48,7 @@ App({
       list:'.webp?imageView&thumbnail=100x0&quality=75&tostatic=0&type=webp',
       playerAlbum:'.webp?imageView&thumbnail=721y721&quality=75&tostatic=0&type=webp',
       avatar:'.webp?imageView&thumbnail=60x0&quality=75&tostatic=0&type=webp',
+      simiSong:'.webp?imageView&thumbnail=80x0&quality=75&tostatic=0&type=webp',
     },
     imgFormat(url,name){
       return url.replace(/\.[a-z]+$/,this.imgExt[name]);
