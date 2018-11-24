@@ -81,13 +81,16 @@ Page({
   },
   _init(data){
     this._lrcParse(data);
-    backgroundAudioManager.title=this.data.song.name;
-    backgroundAudioManager.epname =this.data.song.name;
-    backgroundAudioManager.singer = this.data.song.artists[0].name;
-    backgroundAudioManager.coverImgUrl = this.data.song.picUrl;
-    backgroundAudioManager.src = data.url;
+    this._play(data);
     backgroundAudioManager.onPlay(this.onMusicPlay);
     backgroundAudioManager.onPause(this.onMusicPause);
+    backgroundAudioManager.onEnded(()=>{
+      this.setData({
+        top:0,
+        lrcIndex:0
+      });
+      this._play(data);
+    });
     backgroundAudioManager.onError((res)=>{
       console.error(res);
     });
@@ -122,6 +125,13 @@ Page({
       });
       return json;
     }
+  },
+  _play(data){
+    backgroundAudioManager.title=this.data.song.name;
+    backgroundAudioManager.epname =this.data.song.name;
+    backgroundAudioManager.singer = this.data.song.artists[0].name;
+    backgroundAudioManager.coverImgUrl = this.data.song.picUrl;
+    backgroundAudioManager.src = data.url;
   },
   lrcBegin(){
     let lastTime=~~(backgroundAudioManager.currentTime*1000);

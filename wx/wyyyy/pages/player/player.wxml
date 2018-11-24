@@ -37,7 +37,7 @@
 			</view>
 		</scroll-view>
 	</view>
-	<view class="section" style="margin-top:40px">
+	<view wx:if="{{hotComments.length}}" class="section" style="margin-top:40px">
 		<view class="section-title">精彩评论</view>
 		<view
 			class="comment-item"
@@ -63,7 +63,7 @@
 	<view wx:if="{{commentsLimit<1000&&hotComments.length>5}}" class="more-btn-board">
 		<view class="more-btn" bindtap="commentsExpand">展开更多评论</view>
 	</view>
-	<view wx:if="simiPlaylist.length" class="section" style="margin-top:65px;">
+	<view wx:if="{{simiPlaylist.length}}" class="section" style="margin-top:65px;">
 		<view class="section-title">包含这首歌的歌单</view>
 		<view class="album">
 			<view class="intro-content-player">

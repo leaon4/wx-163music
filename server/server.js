@@ -154,7 +154,12 @@ function songsFormat(songs){
 				picUrl:item.song.album.picUrl
 			},
 			privilege:{
-				maxbr:item.song.privilege.maxbr
+				maxbr:item.song.privilege.maxbr,
+				st:item.song.privilege.st,
+				fee:item.song.privilege.fee,
+				payed:item.song.privilege.payed,
+				flag:item.song.privilege.flag,
+				pl:item.song.privilege.pl,
 			}
 		}
 	});
@@ -206,7 +211,12 @@ function detailFormat(detail){
 	};
 	let privileges=json.privileges.map(item=>{
 		return {
-			maxbr:item.maxbr
+			maxbr:item.maxbr,
+			st:item.st,
+			fee:item.fee,
+			payed:item.payed,
+			flag:item.flag,
+			pl:item.pl,
 		}
 	});
 	return {playlist,privileges};
@@ -286,7 +296,12 @@ function getFormat(get){
 					}
 				}),
 				privilege:{
-					maxbr:item.privilege.maxbr
+					maxbr:item.privilege.maxbr,
+					st:item.privilege.st,
+					fee:item.privilege.fee,
+					payed:item.privilege.payed,
+					flag:item.privilege.flag,
+					pl:item.privilege.pl,
 				},
 				alias:item.alia
 			}
@@ -359,7 +374,12 @@ function simiSongFormat(simiSong){
 				}
 			}),
 			privilege:{
-				maxbr:item.privilege.maxbr
+				maxbr:item.privilege.maxbr,
+				st:item.privilege.st,
+				fee:item.privilege.fee,
+				payed:item.privilege.payed,
+				flag:item.privilege.flag,
+				pl:item.privilege.pl,
 			},
 			alias:item.alias
 		}

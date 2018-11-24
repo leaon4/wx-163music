@@ -31,10 +31,7 @@
   wx:for-index="index"
   wx:for-item="item"
   wx:key="{{index}}"
-  data-id="{{item.id}}"
-  data-name="{{item.name}}"
-  data-artists="{{item.artists}}"
-  data-pic-url="{{item.album.picUrl}}"
+  data-song-index="{{index}}"
   bindtap="listTap"
 >
   <image src="{{item.album.formattedPicUrl}}" class="album-img"></image>
