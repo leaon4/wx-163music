@@ -1,13 +1,25 @@
 <scroll-view scroll-y scroll-top="{{pageTop}}" class="scoll-view" bindscrolltolower="scrollToLower" style="height:100vh">
 <view class="fixed">
   <view class="header">
-    <image src="../img/logo.png" class="logo" mode="center"></image>
+    <image src="{{icon.logoHeader}}" class="logo" mode="widthFix"></image>
     <view role="button" class="download-app-btn">下载APP</view>
   </view>
   <view class="page-label">
-    <view data-index="0" class="page-label-item {{labelSelected==='0'?'page-label-item-selected':''}}" bindtap="labelSelecting">推荐音乐</view>
-    <view data-index="1" class="page-label-item {{labelSelected==='1'?'page-label-item-selected':''}}" bindtap="labelSelecting">热歌榜</view>
-    <view data-index="2" class="page-label-item {{labelSelected==='2'?'page-label-item-selected':''}}" bindtap="labelSelecting">搜索</view>
+    <view
+      data-index="0"
+      class="page-label-item {{labelSelected==='0'?'page-label-item-selected':''}}"
+      bindtap="labelSelecting"
+    >推荐音乐</view>
+    <view
+      data-index="1"
+      class="page-label-item {{labelSelected==='1'?'page-label-item-selected':''}}"
+      bindtap="labelSelecting"
+    >热歌榜</view>
+    <view
+      data-index="2"
+      class="page-label-item {{labelSelected==='2'?'page-label-item-selected':''}}"
+      bindtap="labelSelecting"
+    >搜索</view>
   </view>
 </view>
 <view class="blank-header"></view>
@@ -36,7 +48,10 @@
     <song-list songs="{{songs}}"></song-list>
   </view>
   <view class="footer">
-    <image src="../img/footer.png" class="footer-img" mode="widthFix"></image>
+    <image src="../img/recommand_bg_2x.png" class="footer-img" mode="widthFix"></image>
+    <image src="{{icon.logoFooter}}" class="footer-logo" mode="widthFix"></image>
+    <view class="more-btn">打开APP，发现更多好音乐 ></view>
+    <view class="copyright">网易公司版权所有©1997-2018   杭州乐读科技有限公司运营</view>
   </view>
 </block>
 <block wx:elif="{{labelSelected==='1'}}">

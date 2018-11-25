@@ -77,11 +77,45 @@
 }
 .footer-img{
 	width:100vw;
-
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: -1;
 }
 .footer{
 	/*height:54.667vw;*/
 	/*overflow: hidden;*/
+	position: relative;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.footer-logo{
+	width:230px;
+	/*position: absolute;*/
+	/*top:63px;*/
+	/*left:72px;*/
+	/*margin:auto;*/
+	margin-top:63px;
+	/*margin:63px 0 0 72px;*/
+}
+.more-btn{
+	font-size: 16px;
+	border:1px solid #d33a31;
+	border-radius: 50px;
+	color:#d33a31;
+	width:299px;
+	height:38px;
+	/*margin:auto;*/
+	margin-top:15px;
+	text-align:center;
+	line-height: 38px;
+}
+.copyright{
+	color: #888;
+    font-size: 9px;
+    margin-top:5px;
+    /*line-height: 16px;*/
 }
 .charts-header{
 	position: relative;

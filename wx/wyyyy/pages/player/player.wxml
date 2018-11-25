@@ -1,7 +1,7 @@
 <image wx:if="{{song.blurPicUrl}}" src="{{'http:'+song.blurPicUrl}}" class="bgimage" mode="aspectFill"></image>
 <view class="page">
 	<!-- <div class="aaa" bindtap="prev">button</div> -->
-	<image src="../img/player/logo.png" class="logo" mode="aspectFit"></image>
+	<image src="{{icon.logoPlayer}}" class="logo" mode="aspectFit"></image>
 	<image src="../img/player/needle-ip6.png" mode="aspectFit" class="needle"></image>
 	<view class="disc-container">
 		<view class="disc" style="animation-play-state: {{playState}}">
@@ -87,28 +87,6 @@
 	</view>
 	<view class="section" style="margin-top:20px;padding-bottom: 20px;">
 		<view class="section-title">喜欢这首歌的人也听</view>
-		<!-- <view
-		  class="songs-item"
-		  wx:for="{{simiSongs}}"
-		  wx:for-index="index"
-		  wx:for-item="item"
-		  wx:key="index"
-		>
-		  <image src="{{item.album.picUrl}}" class="album-img"></image>
-		  <view class="songs-item-content">
-		    <view class="songs-item-title">
-		      <text>{{item.name}}</text>
-		    </view>
-		    <view class="songs-message">
-		      <image wx:if="{{item.isSQ}}" src="../img/sq.png" class="sqicon"></image>
-		      <text>{{item.artistName}} - {{item.album.name}}</text>
-		    </view>     
-		  </view>
-		  <view class="playicon-box" bindtap="aa">
-		 	<view class="pause-icon"></view>
-		  </view>
-		</view> -->
 		<song-list2 songs="{{simiSongs}}"></song-list2>
-		<!-- <song-list songs="{{simiSongs}}"></song-list> -->
 	</view>
 </view>
