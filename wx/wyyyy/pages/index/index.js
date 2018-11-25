@@ -38,12 +38,6 @@ Page({
       }
     });
   },
-  aa(){
-    wx.showModal({
-      title: '播放失败',
-      content: '此歌曲为付费歌曲'
-    })
-  },
   _indexDataFormat(data){
     data.indexSongs.forEach(item=>{
       // item.picUrl=item.picUrl.replace(/\.[a-z]+$/,app.globalData.imgExt.index);

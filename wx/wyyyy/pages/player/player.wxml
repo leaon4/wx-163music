@@ -1,6 +1,6 @@
-<image src="{{song.blurPicUrl}}" class="bgimage" mode="aspectFill"></image>
+<image wx:if="{{song.blurPicUrl}}" src="{{'http:'+song.blurPicUrl}}" class="bgimage" mode="aspectFill"></image>
 <view class="page">
-	<div class="aaa" bindtap="prev">button</div>
+	<!-- <div class="aaa" bindtap="prev">button</div> -->
 	<image src="../img/player/logo.png" class="logo" mode="aspectFit"></image>
 	<image src="../img/player/needle-ip6.png" mode="aspectFit" class="needle"></image>
 	<view class="disc-container">
@@ -63,7 +63,7 @@
 	<view wx:if="{{commentsLimit<1000&&hotComments.length>5}}" class="more-btn-board">
 		<view class="more-btn" bindtap="commentsExpand">展开更多评论</view>
 	</view>
-	<view wx:if="{{simiPlaylist.length}}" class="section" style="margin-top:65px;">
+	<view wx:if="{{simiPlaylist.length}}" class="section" style="margin-top:40px;">
 		<view class="section-title">包含这首歌的歌单</view>
 		<view class="album">
 			<view class="intro-content-player">

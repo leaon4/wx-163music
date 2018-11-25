@@ -1,6 +1,6 @@
 <scroll-view scroll-y scroll-top="{{pageTop}}" class="scoll-view" bindscrolltolower="scrollToLower" style="height:100vh">
 <view class="fixed">
-  <view class="header" bindtap="aa">
+  <view class="header">
     <image src="../img/logo.png" class="logo" mode="center"></image>
     <view role="button" class="download-app-btn">下载APP</view>
   </view>

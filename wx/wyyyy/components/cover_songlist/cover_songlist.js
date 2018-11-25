@@ -21,7 +21,7 @@ Component({
         return;
       }
       picUrl=encodeURIComponent(picUrl);
-      wx.navigateTo({
+      wx.redirectTo({
         url:`/pages/player/player?song_id=${id}&name=${name}&picUrl=${picUrl}&artists=${JSON.stringify(artists)}`
       });
     },
