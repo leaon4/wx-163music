@@ -318,12 +318,17 @@ function urlFormat(url){
 	return result;
 }
 function lyricFormat(lyric){
-	let json=JSON.parse(lyric);
-	let result={
-		lyric:json.lrc.lyric,
-		tlyric:json.tlyric.lyric
-	};
-	return result;
+	try{
+		let json=JSON.parse(lyric);
+		let result={
+			lyric:json.lrc.lyric,
+			tlyric:json.tlyric.lyric
+		};
+		return result;
+	} catch(e){
+		// 歌词形式太多了。只要这一步解析失败一律返回空对象
+		return {}
+	}
 }
 function hotCommentsFormat(comments){
 	let json=JSON.parse(comments);

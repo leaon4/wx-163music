@@ -21,8 +21,9 @@ Component({
         return;
       }
       picUrl=encodeURIComponent(picUrl);
+      artists=encodeURIComponent(JSON.stringify(artists));
       wx.navigateTo({
-        url:`/pages/player/player?song_id=${id}&name=${name}&picUrl=${picUrl}&artists=${JSON.stringify(artists)}`
+        url:`/pages/player/player?song_id=${id}&name=${name}&picUrl=${picUrl}&artists=${artists}`
       });
     },
     songPrivilege: function(e) {

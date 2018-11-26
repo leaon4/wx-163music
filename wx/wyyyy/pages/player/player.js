@@ -19,13 +19,14 @@ Page({
     commentsLimit:5,
   },
   onLoad: function (option) {
+    let artists=JSON.parse(decodeURIComponent(option.artists));
     let picUrl=decodeURIComponent(option.picUrl);
     let picUrlExt=picUrl.match(/\d+\.[a-z]+$/)[0];
     this.setData({
       song:{
         id:option.song_id,
         name:option.name,
-        artists:JSON.parse(option.artists),
+        artists,
         picUrl:app.globalData.imgFormat(picUrl,'playerAlbum'),
         blurPicUrl:'//music.163.com/api/img/blur/'+picUrlExt
       }
@@ -100,6 +101,12 @@ Page({
     });
   },
   _lrcParse(data){
+    if (!data.lyric){
+      this.setData({
+        lrc:[{time:0,lrc:'无歌词'}]
+      });
+      return;
+    }
     let lrc=LRCparse(data.lyric);
     let lrc_ch=LRCparse(data.tlyric);
     let arr=[];
@@ -118,9 +125,10 @@ Page({
     function LRCparse(lyric){
       lyric=lyric.replace(/’/g,"'");
       let json={};
-      let patt=/\[(\d\d):(\d\d\.\d+)\] ?(.+)\n?/g;
+      let patt=/\[(\d\d):(\d\d[\.:]\d+)\] ?(.+)\n?/g;
       lyric.replace(patt,(match,p1,p2,p3)=>{
-        let time=~~(p1*60000+Number(p2)*1000);
+        let second=Number(p2)||Number(p2.replace(':','.'));
+        let time=~~(p1*60000+second*1000);
         json[time]=p3.trim();
       });
       return json;
