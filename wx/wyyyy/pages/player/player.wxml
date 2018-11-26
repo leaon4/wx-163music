@@ -86,7 +86,7 @@
 		</view>
 	</view>
 	<view class="section" style="margin-top:20px;padding-bottom: 20px;">
-		<view class="section-title">喜欢这首歌的人也听</view>
+		<view class="section-title" wx:if="{{simiSongs.length}}">喜欢这首歌的人也听</view>
 		<song-list2 songs="{{simiSongs}}"></song-list2>
 	</view>
 </view>
