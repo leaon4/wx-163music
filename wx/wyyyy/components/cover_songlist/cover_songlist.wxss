@@ -1,59 +1,66 @@
-.album-img{
-	width:40px;
-	height:40px;
+.album-img {
+    width: 40px;
+    height: 40px;
 }
-.songs-item-content{
-	width:73%;
+
+.songs-item-content {
+    width: 73%;
 }
-.songs-item{
-	height:43px;
-	padding:6px 0;
-	margin-left:5px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	border-bottom: 1px solid rgba(255,255,255,0.1);
-	font-family: Helvetica;
+
+.songs-item {
+    height: 43px;
+    padding: 6px 0;
+    margin-left: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: Helvetica;
 }
-.songs-item-title{
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size:15px;
+
+.songs-item-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
 }
-.songs-message{
-	margin-top:3px;
-	font-size:14px;
-	color:#999292;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+
+.songs-message {
+    margin-top: 3px;
+    font-size: 14px;
+    color: #999292;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
-.playicon-box{
-	position: relative;
-	transform:scale(0.35);
-	margin-right:20px;
+
+.playicon-box {
+    position: relative;
+    transform: scale(0.35);
+    margin-right: 20px;
 }
-.pause-icon{
-	margin-top:-5px;
-	width:60px;
-	height:60px;
-	position: absolute;
-	z-index: 3;
-	left:50%;
-	top:50%;
-	transform:translate(-50%, -50%);
-	border-radius: 50%;
-	border: 1px solid #fff;
+
+.pause-icon {
+    margin-top: -5px;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid #fff;
 }
-.pause-icon:before{
-	content:'';
-	box-sizing: border-box;
-	position: absolute;
-	left:50%;
-	top:50%;
-	transform:translate(-50%,-50%);
-	border-left: 18px solid white;
-	border-top: 12px solid transparent;
-	border-bottom: 12px solid transparent;
+
+.pause-icon:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-left: 18px solid white;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
 }

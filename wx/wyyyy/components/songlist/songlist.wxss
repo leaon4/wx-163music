@@ -1,68 +1,77 @@
-.songs-item{
-	height:43px;
-	padding:6px 0;
-	border-bottom: 1px solid #efeff0;
-	margin-left:5px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
+.songs-item {
+    height: 43px;
+    padding: 6px 0;
+    border-bottom: 1px solid #efeff0;
+    margin-left: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
-.songs-item-title{
-	font-size:17px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+
+.songs-item-title {
+    font-size: 17px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.songs-item-title-suffix{
-	color:#888;
+
+.songs-item-title-suffix {
+    color: #888;
 }
-.songs-message{
-	margin-top:3px;
-	font-size:12px;
-	color:#888;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+
+.songs-message {
+    margin-top: 3px;
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.sqicon{
-	width:13px;
-	height:9px;
-	margin-right: 5px
+
+.sqicon {
+    width: 13px;
+    height: 9px;
+    margin-right: 5px
 }
-.playicon{
-	width:28px;
-	height:28px;
+
+.playicon {
+    width: 28px;
+    height: 28px;
 }
-.songs-item-index{
-	color:#999;
-	font-size:17px;
-	width:20px;
+
+.songs-item-index {
+    color: #999;
+    font-size: 17px;
+    width: 20px;
 }
-.playicon-box{
-	position: relative;
-	transform:scale(0.35);
-	margin-right:15px;
+
+.playicon-box {
+    position: relative;
+    transform: scale(0.35);
+    margin-right: 15px;
 }
-.pause-icon{
-	margin-top:-5px;
-	width:60px;
-	height:60px;
-	position: absolute;
-	z-index: 3;
-	left:50%;
-	top:50%;
-	transform:translate(-50%, -50%);
-	border-radius: 50%;
-	border: 2px solid #ababab;
+
+.pause-icon {
+    margin-top: -5px;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid #ababab;
 }
-.pause-icon:before{
-	content:'';
-	box-sizing: border-box;
-	position: absolute;
-	left:55%;
-	top:50%;
-	transform:translate(-50%,-50%);
-	border-left: 20px solid #ababab;
-	border-top: 13px solid transparent;
-	border-bottom: 13px solid transparent;
+
+.pause-icon:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 55%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-left: 20px solid #ababab;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
 }
