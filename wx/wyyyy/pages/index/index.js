@@ -1,10 +1,7 @@
-//index.js
-//获取应用实例
 const app = getApp();
-const ip=app.globalData.ip;
+const host=app.globalData.host;
 
 let keywordT=0;
-// const ip='192.168.5.133';
 
 Page({
   data:{
@@ -25,7 +22,7 @@ Page({
   },
   onLoad(){
     wx.request({
-      url:`http://${ip}:11111/index`,
+      url:`http://${host}/index`,
       success:(res)=>{
         this._indexDataFormat(res.data);
         this.setData({
@@ -60,7 +57,7 @@ Page({
     let index=e.target.dataset.index;
     if (index==='1'&&!this.data.playlist){
       wx.request({
-        url:`http://${ip}:11111/index/detail`,
+        url:`http://${host}/index/detail`,
         success:(res)=>{
           this._detailDataFormat(res.data);
           this.setData({
@@ -73,7 +70,7 @@ Page({
       });
     } else if (index==='2'&&!this.data.hots){
       wx.request({
-        url:`http://${ip}:11111/index/search/hot`,
+        url:`http://${host}/index/search/hot`,
         success:(res)=>{
           this.setData({
             hots:res.data
@@ -109,7 +106,7 @@ Page({
   _keywordSearch(){
     let value=this.data.searchValue.trim();
     if (!value) return;
-    let url=`http://${ip}:11111/index/search/suggest/keyword?keyword=`+value;
+    let url=`http://${host}/index/search/suggest/keyword?keyword=`+value;
     wx.request({
       url,
       success:(res)=>{
@@ -141,7 +138,7 @@ Page({
     let receive=0;// 用它做Promise.all的功能
     let empty=0;// 用它判断是否都没数据
     s=encodeURIComponent(s);
-    let url1=`http://${ip}:11111/index/search/suggest/multimatch?s=`+s;
+    let url1=`http://${host}/index/search/suggest/multimatch?s=`+s;
     wx.request({
       url:url1,
       success:(res)=>{
@@ -164,7 +161,7 @@ Page({
         console.error(e);
       }
     });
-    let url2=`http://${ip}:11111/index/search/get?s=${s}&offset=0`;
+    let url2=`http://${host}/index/search/get?s=${s}&offset=0`;
     wx.request({
       url:url2,
       success:(res)=>{
@@ -209,7 +206,7 @@ Page({
   },
   _searchingGet(){
     let s=encodeURIComponent(this.data.searchValue);
-    let url2=`http://${ip}:11111/index/search/get?s=${s}&offset=${this.data.offset}`;
+    let url2=`http://${host}/index/search/get?s=${s}&offset=${this.data.offset}`;
     wx.request({
       url:url2,
       success:(res)=>{

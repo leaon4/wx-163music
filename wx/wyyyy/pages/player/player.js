@@ -1,7 +1,6 @@
 const app = getApp();
-const ip=app.globalData.ip;
+const host=app.globalData.host;
 const backgroundAudioManager=wx.getBackgroundAudioManager();
-//music.163.com/api/img/blur/2542070883747732.jpg2542070883747732
 
 Page({
   data: {
@@ -32,7 +31,7 @@ Page({
       }
     });
     wx.request({
-      url:`http://${ip}:11111/player?id=${option.song_id}`,
+      url:`http://${host}/player?id=${option.song_id}`,
       success:(res)=>{
         this._init(res.data);
       },
@@ -41,7 +40,7 @@ Page({
       }
     });
     wx.request({
-      url:`http://${ip}:11111/player/get?id=${option.song_id}`,
+      url:`http://${host}/player/get?id=${option.song_id}`,
       success:(res)=>{
         this._commentsFormat(res.data);
         this.setData({
@@ -53,7 +52,7 @@ Page({
       }
     });
     wx.request({
-      url:`http://${ip}:11111/player/simiPlaylist?id=${option.song_id}`,
+      url:`http://${host}/player/simiPlaylist?id=${option.song_id}`,
       success:(res)=>{
         this._simiListFormat(res.data);
         this.setData({
@@ -65,7 +64,7 @@ Page({
       }
     });
     wx.request({
-      url:`http://${ip}:11111/player/simiSong?id=${option.song_id}`,
+      url:`http://${host}/player/simiSong?id=${option.song_id}`,
       success:(res)=>{
         this._simiSongsFormat(res.data);
         this.setData({
