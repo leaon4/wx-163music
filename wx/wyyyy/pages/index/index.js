@@ -109,6 +109,7 @@ Page({
   _keywordSearch() {
     let value = this.data.searchValue.trim();
     if (!value) return;
+    value = encodeURIComponent(value);
     let url = `http://${host}/index/search/suggest/keyword?keyword=` + value;
     wx.request({
       url,
